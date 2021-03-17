@@ -9,7 +9,7 @@ FunctionsFramework.http "hello_world" do |request|
   msg = input["message"].to_s
   factorial_calculator = Factorial.new
   output = factorial_calculator.factorial(msg)
-  return output
+  return output.to_s
 end
 
 class Factorial
