@@ -14,7 +14,8 @@ end
 
 class Factorial
 
-  def factorial(num)
+  def factorial(number)
+    num = number.to_i
     fact = 1
     if (num == 0)
       puts "Error! Could not find the factorial of one"
