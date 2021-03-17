@@ -7,5 +7,24 @@ require "json"
 FunctionsFramework.http "hello_world" do |request|
   input = JSON.parse request.body.read rescue {}
   msg = input["message"].to_s
-  msg.empty? ? "Hello World!" : msg
+  factorial_calculator = Factorial.new
+  output = factorial_calculator.factorial(msg)
+  return output
+end
+
+class Factorial
+
+  def factorial(num)
+    fact = 1
+    if (num == 0)
+      puts "Error! Could not find the factorial of one"
+    else
+      i = 1
+      while (i <= num)
+        fact = fact * i
+        i += 1
+      end
+    end
+    return fact
+  end
 end
