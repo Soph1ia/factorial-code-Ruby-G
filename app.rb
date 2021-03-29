@@ -1,15 +1,36 @@
 require "functions_framework"
 require "json"
+require 'benchmark'
 
 # This function receives an HTTP request of type Rack::Request
-# and interprets the body as JSON. It prints the contents of
-# the "message" field, or "Hello World!" if there isn't one.
+# and interprets the body as JSON. It calls the Benchmarking
+# utility and returns the
 FunctionsFramework.http "hello_world" do |request|
   input = JSON.parse request.body.read rescue {}
-  msg = input["message"].to_s
-  factorial_calculator = Factorial.new
-  output = factorial_calculator.factorial(msg)
+  number = input["message"].to_s
+  # default output
+  # Get benchmarking class
+  benchmark_util = Factorial_Benchmarking.new
+  output = benchmark_util.run(number)
+  # return output
   return output.to_s
+end
+
+class Factorial_Benchmarking
+
+  def run(number)
+    factorial_calculator = Factorial.new
+
+    # Main Benchmarking Code that runs the factorial 50 times.
+    puts Benchmark.measure {
+      50.times do
+        factorial_calculator.factorial(number)
+      end
+    }
+    return "factorial run successfully for " + number.to_s
+
+  end
+
 end
 
 class Factorial
@@ -29,3 +50,4 @@ class Factorial
     return fact
   end
 end
+
